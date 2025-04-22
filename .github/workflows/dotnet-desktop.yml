@@ -25,10 +25,10 @@ jobs:
           dotnet-version: '7.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore "mars-rover/${{ env.Solution_Name }}"
+        run: dotnet restore "mars-rover/mars-rover/${{ env.Solution_Name }}"
 
       - name: Build solution
-        run: dotnet build "mars-rover/${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-restore
+        run: dotnet build "mars-rover/mars-rover/${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-restore
 
       - name: Run tests
-        run: dotnet test "mars-rover/${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-build --verbosity normal
+        run: dotnet test "mars-rover/mars-rover/${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-build --verbosity normal
