@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: 'mars-rover/mars-rover/CSharp xUnit starter.sln'
+      Solution_Name: 'CSharp xUnit starter.sln'
       Configuration: 'Release'
 
     steps:
