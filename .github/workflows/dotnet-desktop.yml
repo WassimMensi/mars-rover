@@ -12,12 +12,14 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: 'CSharp xUnit starter.sln'
+      Solution_Name: 'mars-rover/mars-rover/CSharp xUnit starter.sln'
       Configuration: 'Release'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
 
       - name: Check commit message for space emoji 🚀
         shell: pwsh
@@ -29,13 +31,21 @@ jobs:
             exit 1
           }
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '7.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore "${{ env.Solution_Name }}"
+        run: dotnet restore "${{ env.Solution_Name }}" --verbosity quiet
 
       - name: Build solution
         run: dotnet build "${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-restore
@@ -45,7 +55,7 @@ jobs:
         run: dotnet test "${{ env.Solution_Name }}" --configuration ${{ env.Configuration }} --no-build --verbosity normal
         continue-on-error: true
 
-      - name: Weather report 🌦️
+      - name: Weather report ☀️
         if: steps.test.outcome == 'success'
         run: echo "☀️ Tous les tests sont passés !"
 
