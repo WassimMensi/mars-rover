@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  server1:
+    build: ./container1
+    networks:
+      - reseautest
+
+  server2:
+    build: ./container2
+    networks:
+      - reseautest
+    depends_on:
+      - server1
+
+networks:
+  reseautest:
+    driver: bridge
